@@ -85,9 +85,15 @@ class SlippyMap {
 		$error = '';
 
 		// default values (meaning these parameters can be missed out)
-		if ( $width == '' ) $width = '450';
-		if ( $height == '' ) $height = '320';
-		if ( $layer == '' ) $layer = 'mapnik';
+		if ( $width == '' ) {
+			$width = '450';
+		}
+		if ( $height == '' ) {
+			$height = '320';
+		}
+		if ( $layer == '' ) {
+			$layer = 'mapnik';
+		}
 
 		if ( $zoom == '' && isset( $argv['zoom'] ) ) {
 			$zoom = $argv['zoom']; // see if they used 'zoom' rather than 'z' (and allow it)
@@ -96,69 +102,106 @@ class SlippyMap {
 		$marker = ( $marker != '' && $marker != '0' );
 
 		// trim off the 'px' on the end of pixel measurement numbers (ignore if present)
-		if ( substr( $width, -2 ) == 'px' )
-			$width = (int) substr( $width, 0, -2 );
+		if ( substr( $width, -2 ) == 'px' ) {
+			$width = (int)substr( $width, 0, -2 );
+		}
 
-		if ( substr( $height, - 2 ) == 'px' )
-			$height = (int) substr( $height, 0, -2 );
+		if ( substr( $height, -2 ) == 'px' ) {
+			$height = (int)substr( $height, 0, -2 );
+		}
 
-		$input = trim($input); 	
-		if ($input!='') {
-			if (strpos($input,'|')!==false) {
+		$input = trim( $input );
+		if ( $input != '' ) {
+			if ( strpos( $input, '|' ) !== false ) {
 				$error = 'Old style tag syntax no longer supported';
-			} else {	
+			} else {
 				$error = 'slippymap tag contents. Were you trying to input KML? KML support ' .
-				         'is disabled pending discussions about wiki syntax<br>';
+					'is disabled pending discussions about wiki syntax<br>';
 			}
 		}
 		$showkml = false; //currently disabled
-		
-		
-		if ($marker) $error = 'marker support is disactivated on the OSM wiki pending discussions about wiki syntax';
-	
+
+
+		if ( $marker ) {
+			$error = 'marker support is disactivated on the OSM wiki pending discussions about wiki syntax';
+		}
 
 
 		if ( $error == '' ) {
-			
-			// Check required parameters values are provided
-			if ( $lat == ''  ) $error .= wfMsg( 'slippymap_latmissing' ) . '<br>';
-			if ( $lon == ''  ) $error .= wfMsg( 'slippymap_lonmissing' ) . '<br>';
-			if ( $zoom == '' ) $error .= wfMsg( 'slippymap_zoommissing' ) . '<br>';
 
-			
+			// Check required parameters values are provided
+			if ( $lat == '' ) {
+				$error .= wfMsg( 'slippymap_latmissing' ) . '<br>';
+			}
+			if ( $lon == '' ) {
+				$error .= wfMsg( 'slippymap_lonmissing' ) . '<br>';
+			}
+			if ( $zoom == '' ) {
+				$error .= wfMsg( 'slippymap_zoommissing' ) . '<br>';
+			}
+
+
 			// no errors so far. Now check the values
 			if ( !is_numeric( $width ) ) {
 				$error = wfMsg( 'slippymap_widthnan', $width ) . '<br>';
 			} else if ( !is_numeric( $height ) ) {
 				$error = wfMsg( 'slippymap_heightnan', $height ) . '<br>';
-			} else if ( !is_numeric( $zoom ) ) {
-				$error = wfMsg( 'slippymap_zoomnan', $zoom ) . '<br>';
-			} else if ( !is_numeric( $lat ) ) {
-				$error = wfMsg( 'slippymap_latnan', $lat ) . '<br>';
-			} else if ( !is_numeric( $lon ) ) {
-				$error = wfMsg( 'slippymap_lonnan', $lon ) . '<br>';
-			} else if ( $width > 1000 ) {
-				$error = wfMsg( 'slippymap_widthbig' ) . '<br>';
-			} else if ( $width < 100 ) {
-				$error = wfMsg( 'slippymap_widthsmall' ) . '<br>';
-			} else if ( $height > 1000 ) {
-				$error = wfMsg( 'slippymap_heightbig' ) . '<br>';
-			} else if ( $height < 100 ) {
-				$error = wfMsg( 'slippymap_heightsmall' ) . '<br>';
-			} else if ( $lat > 90 ) {
-				$error = wfMsg( 'slippymap_latbig' ) . '<br>';
-			} else if ( $lat < -90 ) {
-				$error = wfMsg( 'slippymap_latsmall' ) . '<br>';
-			} else if ( $lon > 180 ) {
-				$error = wfMsg( 'slippymap_lonbig' ) . '<br>';
-			} else if ( $lon < -180 ) {
-				$error = wfMsg( 'slippymap_lonsmall' ) . '<br>';
-			} else if ( $zoom < 0 ) {
-				$error = wfMsg( 'slippymap_zoomsmall' ) . '<br>';
-			} else if ( $zoom == 18 ) {
-				$error = wfMsg( 'slippymap_zoom18' ) . '<br>';
-			} else if ( $zoom > 17 ) {
-				$error = wfMsg( 'slippymap_zoombig' ) . '<br>';
+			} else {
+				if ( !is_numeric( $zoom ) ) {
+					$error = wfMsg( 'slippymap_zoomnan', $zoom ) . '<br>';
+				} else {
+					if ( !is_numeric( $lat ) ) {
+						$error = wfMsg( 'slippymap_latnan', $lat ) . '<br>';
+					} else {
+						if ( !is_numeric( $lon ) ) {
+							$error = wfMsg( 'slippymap_lonnan', $lon ) . '<br>';
+						} else {
+							if ( $width > 1000 ) {
+								$error = wfMsg( 'slippymap_widthbig' ) . '<br>';
+							} else {
+								if ( $width < 100 ) {
+									$error = wfMsg( 'slippymap_widthsmall' ) . '<br>';
+								} else {
+									if ( $height > 1000 ) {
+										$error = wfMsg( 'slippymap_heightbig' ) . '<br>';
+									} else {
+										if ( $height < 100 ) {
+											$error = wfMsg( 'slippymap_heightsmall' ) . '<br>';
+										} else {
+											if ( $lat > 90 ) {
+												$error = wfMsg( 'slippymap_latbig' ) . '<br>';
+											} else {
+												if ( $lat < -90 ) {
+													$error = wfMsg( 'slippymap_latsmall' ) . '<br>';
+												} else {
+													if ( $lon > 180 ) {
+														$error = wfMsg( 'slippymap_lonbig' ) . '<br>';
+													} else {
+														if ( $lon < -180 ) {
+															$error = wfMsg( 'slippymap_lonsmall' ) . '<br>';
+														} else {
+															if ( $zoom < 0 ) {
+																$error = wfMsg( 'slippymap_zoomsmall' ) . '<br>';
+															} else {
+																if ( $zoom == 18 ) {
+																	$error = wfMsg( 'slippymap_zoom18' ) . '<br>';
+																} else {
+																	if ( $zoom > 17 ) {
+																		$error = wfMsg( 'slippymap_zoombig' ) . '<br>';
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -172,12 +215,12 @@ class SlippyMap {
 		} elseif ( $layer == 'cycle' ) {
 			$layerObjectDef = 'OpenLayers.Layer.OSM.CycleMap("OpenCycleMap"); ';
 		} else {
-			$error = wfMsg( 'slippymap_invalidlayer',  htmlspecialchars( $layer ) );
+			$error = wfMsg( 'slippymap_invalidlayer', htmlspecialchars( $layer ) );
 		}
 
 		if ( $error != "" ) {
 			// Something was wrong. Spew the error message and input text.
-			$output  = '';
+			$output = '';
 			$output .= "<span class=\"error\">" . wfMsg( 'slippymap_maperror' ) . ' ' . $error . "</span><br />";
 			$output .= htmlspecialchars( $input );
 		} else {
@@ -187,7 +230,7 @@ class SlippyMap {
 			// There are other ways of fixing this, but not for MediaWiki v4
 			// (See http://www.mediawiki.org/wiki/Manual:Tag_extensions#How_can_I_avoid_modification_of_my_extension.27s_HTML_output.3F)
 
-			$output  = '<!-- slippy map -->';
+			$output = '<!-- slippy map -->';
 
 			// This inline stylesheet defines how the two extra buttons look, and where they are positioned.
 			$output .= "<style> .buttonsPanel div { float:left; display:block; position:relative; left:50px; margin-left:3px; margin-top:7px; width:36px;  height:19px; }</style>\n";
@@ -258,16 +301,16 @@ class SlippyMap {
 			*/
 
 			if ( $showkml ) {
-				$input = str_replace( array( '%',   "\n" , "'"  , '"'  , '<'  , '>'  , ' '   ),
-				array( '%25', '%0A', '%27', '%22', '%3C', '%3E', '%20' ), $input );
+				$input = str_replace( array( '%', "\n", "'", '"', '<', '>', ' ' ),
+					array( '%25', '%0A', '%27', '%22', '%3C', '%3E', '%20' ), $input );
 				$output .= 'var vector = new OpenLayers.Layer.Vector("Vector Layer"); ' .
-				'   map.addLayer(vector); ' .
-				'   kml = new OpenLayers.Format.KML( { "internalProjection": map.baseLayer.projection, ' .
-				'                                      "externalProjection": epsg4326, ' .
-				'                                      "extractStyles": true, ' .
-				'                                      "extractAttributes": true } ); ' .
-				"   features = kml.read(unescape('$input')); " .
-				'   vector.addFeatures( features ); ';
+					'   map.addLayer(vector); ' .
+					'   kml = new OpenLayers.Format.KML( { "internalProjection": map.baseLayer.projection, ' .
+					'                                      "externalProjection": epsg4326, ' .
+					'                                      "extractStyles": true, ' .
+					'                                      "extractAttributes": true } ); ' .
+					"   features = kml.read(unescape('$input')); " .
+					'   vector.addFeatures( features ); ';
 			}
 
 			$output .= '	map.setCenter (lonLat, zoom); ';

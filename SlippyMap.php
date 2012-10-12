@@ -39,33 +39,35 @@
 
 
 if( defined( 'MEDIAWIKI' ) ) {
-	$wgExtensionFunctions[] = 'wfslippymap';
-
-	$wgExtensionCredits['parserhook'][] = array(
-		'name'           => 'OpenStreetMap Slippy Map',
-		'author'         => '[http://harrywood.co.uk Harry Wood], Jens Frank',
-		'svn-date'       => '$LastChangedDate: 2008-07-23 22:20:05 +0100 (Wed, 23 Jul 2008) $',
-		'svn-revision'   => '$LastChangedRevision: 37977 $',
-		'url'            => 'http://wiki.openstreetmap.org/index.php/Slippy_Map_MediaWiki_Extension',
-		'description'    => 'Allows the use of the &lt;slippymap&gt; tag to display an OpenLayers slippy map. Maps are from [http://openstreetmap.org openstreetmap.org]',
-		'descriptionmsg' => 'slippymap_desc',
-	);
-
-	$wgAutoloadClasses['SlippyMap'] = dirname( __FILE__ ) . '/SlippyMap.class.php';
-	$wgExtensionMessagesFiles['SlippyMap'] = dirname( __FILE__ ) . "/SlippyMap.i18n.php";
-
-	# Bump this when updating OpenStreetMap.js to help update caches
-	$wgSlippyMapVersion = 1;
-
-	function wfslippymap() {
-		global $wgParser, $wgMapOfServiceUrl;
-		# register the extension with the WikiText parser
-		# the first parameter is the name of the new tag.
-		# In this case it defines the tag <slippymap> ... </slippymap>
-		# the second parameter is the callback function for
-		# processing the text between the tags
-		$wgParser->setHook( 'slippymap', array( 'SlippyMap', 'parse' ) );
-		$wgMapOfServiceUrl = "http://osm-tah-cache.firefishy.com/~ojw/MapOf/?";
-	}
-
+	echo( "This file is an extension to the MediaWiki software and cannot be used standalone.\n" );
+	die( 1 );
 }
+$wgExtensionFunctions[] = 'wfslippymap';
+
+$wgExtensionCredits['parserhook'][] = array(
+	'name'           => 'OpenStreetMap Slippy Map',
+	'author'         => '[http://harrywood.co.uk Harry Wood], Jens Frank',
+	'svn-date'       => '$LastChangedDate: 2008-07-23 22:20:05 +0100 (Wed, 23 Jul 2008) $',
+	'svn-revision'   => '$LastChangedRevision: 37977 $',
+	'url'            => 'http://wiki.openstreetmap.org/index.php/Slippy_Map_MediaWiki_Extension',
+	'description'    => 'Allows the use of the &lt;slippymap&gt; tag to display an OpenLayers slippy map. Maps are from [http://openstreetmap.org openstreetmap.org]',
+	'descriptionmsg' => 'slippymap_desc',
+);
+
+$wgAutoloadClasses['SlippyMap'] = dirname( __FILE__ ) . '/SlippyMap.class.php';
+$wgExtensionMessagesFiles['SlippyMap'] = dirname( __FILE__ ) . "/SlippyMap.i18n.php";
+
+# Bump this when updating OpenStreetMap.js to help update caches
+$wgSlippyMapVersion = 1;
+
+function wfslippymap() {
+	global $wgParser, $wgMapOfServiceUrl;
+	# register the extension with the WikiText parser
+	# the first parameter is the name of the new tag.
+	# In this case it defines the tag <slippymap> ... </slippymap>
+	# the second parameter is the callback function for
+	# processing the text between the tags
+	$wgParser->setHook( 'slippymap', array( 'SlippyMap', 'parse' ) );
+	$wgMapOfServiceUrl = "http://osm-tah-cache.firefishy.com/~ojw/MapOf/?";
+}
+
