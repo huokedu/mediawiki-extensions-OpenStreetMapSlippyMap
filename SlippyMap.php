@@ -1,18 +1,18 @@
 <?php
 # OpenStreetMap SlippyMap - MediaWiki extension
-# 
+#
 # This defines what happens when <slippymap> tag is placed in the wikitext
-# 
+#
 # We show a map based on the lat/lon/zoom data passed in. This extension brings in
-# the OpenLayers javascript, to show a slippy map.  
+# the OpenLayers javascript, to show a slippy map.
 #
 # Usage example:
-# <slippymap lat=51.485 lon=-0.15 z=11 w=300 h=200 layer=osmarender></slippymap> 
+# <slippymap lat=51.485 lon=-0.15 z=11 w=300 h=200 layer=osmarender></slippymap>
 #
 # Tile images are not cached local to the wiki.
 # To acheive this (remove the OSM dependency) you might set up a squid proxy,
 # and modify the requests URLs here accordingly.
-# 
+#
 # This file should be placed in the mediawiki 'extensions' directory
 # ...and then it needs to be 'included' within LocalSettings.php
 #
@@ -37,7 +37,6 @@
 # @addtogroup Extensions
 #
 
-
 if( defined( 'MEDIAWIKI' ) ) {
 	echo( "This file is an extension to the MediaWiki software and cannot be used standalone.\n" );
 	die( 1 );
@@ -54,6 +53,7 @@ $wgExtensionCredits['parserhook'][] = array(
 	'descriptionmsg' => 'slippymap_desc',
 );
 
+$wgMessagesDirs['SlippyMap'] = __DIR__ . '/i18n';
 $wgAutoloadClasses['SlippyMap'] = dirname( __FILE__ ) . '/SlippyMap.class.php';
 $wgExtensionMessagesFiles['SlippyMap'] = dirname( __FILE__ ) . "/SlippyMap.i18n.php";
 
@@ -70,4 +70,3 @@ function wfslippymap() {
 	$wgParser->setHook( 'slippymap', array( 'SlippyMap', 'parse' ) );
 	$wgMapOfServiceUrl = "http://osm-tah-cache.firefishy.com/~ojw/MapOf/?";
 }
-
