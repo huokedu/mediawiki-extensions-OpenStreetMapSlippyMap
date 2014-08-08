@@ -43,8 +43,6 @@ class SlippyMap {
 	static function parse( $input, $argv ) {
 		global $wgScriptPath, $wgMapOfServiceUrl, $wgSlippyMapVersion;
 
-		wfLoadExtensionMessages( 'SlippyMap' );
-
 		//Receive args of the form <slippymap aaa=bbb ccc=ddd />
 		if ( isset( $argv['lat'] ) ) {
 			$lat = $argv['lat'];
