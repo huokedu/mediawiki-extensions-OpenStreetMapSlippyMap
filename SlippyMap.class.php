@@ -129,63 +129,63 @@ class SlippyMap {
 
 			// Check required parameters values are provided
 			if ( $lat == '' ) {
-				$error .= wfMsg( 'slippymap_latmissing' ) . '<br>';
+				$error .= wfMessage( 'slippymap_latmissing' )->escaped() . '<br>';
 			}
 			if ( $lon == '' ) {
-				$error .= wfMsg( 'slippymap_lonmissing' ) . '<br>';
+				$error .= wfMessage( 'slippymap_lonmissing' )->escaped() . '<br>';
 			}
 			if ( $zoom == '' ) {
-				$error .= wfMsg( 'slippymap_zoommissing' ) . '<br>';
+				$error .= wfMessage( 'slippymap_zoommissing' )->escaped() . '<br>';
 			}
 
 
 			// no errors so far. Now check the values
 			if ( !is_numeric( $width ) ) {
-				$error = wfMsg( 'slippymap_widthnan', $width ) . '<br>';
+				$error = wfMessage( 'slippymap_widthnan', $width )->escaped() . '<br>';
 			} else if ( !is_numeric( $height ) ) {
-				$error = wfMsg( 'slippymap_heightnan', $height ) . '<br>';
+				$error = wfMessage( 'slippymap_heightnan', $height )->escaped() . '<br>';
 			} else {
 				if ( !is_numeric( $zoom ) ) {
-					$error = wfMsg( 'slippymap_zoomnan', $zoom ) . '<br>';
+					$error = wfMessage( 'slippymap_zoomnan', $zoom )->escaped() . '<br>';
 				} else {
 					if ( !is_numeric( $lat ) ) {
-						$error = wfMsg( 'slippymap_latnan', $lat ) . '<br>';
+						$error = wfMessage( 'slippymap_latnan', $lat )->escaped() . '<br>';
 					} else {
 						if ( !is_numeric( $lon ) ) {
-							$error = wfMsg( 'slippymap_lonnan', $lon ) . '<br>';
+							$error = wfMessage( 'slippymap_lonnan', $lon )->escaped() . '<br>';
 						} else {
 							if ( $width > 1000 ) {
-								$error = wfMsg( 'slippymap_widthbig' ) . '<br>';
+								$error = wfMessage( 'slippymap_widthbig' )->escaped() . '<br>';
 							} else {
 								if ( $width < 100 ) {
-									$error = wfMsg( 'slippymap_widthsmall' ) . '<br>';
+									$error = wfMessage( 'slippymap_widthsmall' )->escaped() . '<br>';
 								} else {
 									if ( $height > 1000 ) {
-										$error = wfMsg( 'slippymap_heightbig' ) . '<br>';
+										$error = wfMessage( 'slippymap_heightbig' )->escaped() . '<br>';
 									} else {
 										if ( $height < 100 ) {
-											$error = wfMsg( 'slippymap_heightsmall' ) . '<br>';
+											$error = wfMessage( 'slippymap_heightsmall' )->escaped() . '<br>';
 										} else {
 											if ( $lat > 90 ) {
-												$error = wfMsg( 'slippymap_latbig' ) . '<br>';
+												$error = wfMessage( 'slippymap_latbig' )->escaped() . '<br>';
 											} else {
 												if ( $lat < -90 ) {
-													$error = wfMsg( 'slippymap_latsmall' ) . '<br>';
+													$error = wfMessage( 'slippymap_latsmall' )->escaped() . '<br>';
 												} else {
 													if ( $lon > 180 ) {
-														$error = wfMsg( 'slippymap_lonbig' ) . '<br>';
+														$error = wfMessage( 'slippymap_lonbig' )->escaped() . '<br>';
 													} else {
 														if ( $lon < -180 ) {
-															$error = wfMsg( 'slippymap_lonsmall' ) . '<br>';
+															$error = wfMessage( 'slippymap_lonsmall' )->escaped() . '<br>';
 														} else {
 															if ( $zoom < 0 ) {
-																$error = wfMsg( 'slippymap_zoomsmall' ) . '<br>';
+																$error = wfMessage( 'slippymap_zoomsmall' )->escaped() . '<br>';
 															} else {
 																if ( $zoom == 18 ) {
-																	$error = wfMsg( 'slippymap_zoom18' ) . '<br>';
+																	$error = wfMessage( 'slippymap_zoom18' )->escaped() . '<br>';
 																} else {
 																	if ( $zoom > 17 ) {
-																		$error = wfMsg( 'slippymap_zoombig' ) . '<br>';
+																		$error = wfMessage( 'slippymap_zoombig' )->escaped() . '<br>';
 																	}
 																}
 															}
@@ -213,13 +213,13 @@ class SlippyMap {
 		} elseif ( $layer == 'cycle' ) {
 			$layerObjectDef = 'OpenLayers.Layer.OSM.CycleMap("OpenCycleMap"); ';
 		} else {
-			$error = wfMsg( 'slippymap_invalidlayer', htmlspecialchars( $layer ) );
+			$error = wfMessage( 'slippymap_invalidlayer', $layer )->escaped();
 		}
 
 		if ( $error != "" ) {
 			// Something was wrong. Spew the error message and input text.
 			$output = '';
-			$output .= "<span class=\"error\">" . wfMsg( 'slippymap_maperror' ) . ' ' . $error . "</span><br />";
+			$output .= "<span class=\"error\">" . wfMessage( 'slippymap_maperror' )->escaped() . ' ' . $error . "</span><br />";
 			$output .= htmlspecialchars( $input );
 		} else {
 			// HTML output for the slippy map.
@@ -261,7 +261,7 @@ class SlippyMap {
 			$output .= '    Z = map.getZoom(); ';
 			$output .= '    size = map.getSize();';
 
-			$output .= '    prompt( "' . wfMsg( 'slippymap_code' ) . '", "<slippymap h="+size.h+" w="+size.w+" z="+Z+" lat="+LL.lat+" lon="+LL.lon+" layer=mapnik />" ); ';
+			$output .= '    prompt( "' . wfMessage( 'slippymap_code' )->escaped() . '", "<slippymap h="+size.h+" w="+size.w+" z="+Z+" lat="+LL.lat+" lon="+LL.lon+" layer=mapnik />" ); ';
 			$output .= '}';
 
 			$output .= 'function slippymap_init() { ';
@@ -312,8 +312,8 @@ class SlippyMap {
 			}
 
 			$output .= '	map.setCenter (lonLat, zoom); ';
-			$output .= '	var getWikiCodeButton = new OpenLayers.Control.Button({title: "' . wfMsg( 'slippymap_button_code' ) . '", displayClass: "getWikiCodeButton", trigger: slippymap_getWikicode}); ';
-			$output .= '	var resetButton = new OpenLayers.Control.Button({title: "' . wfMsg( 'slippymap_resetview' ) . '", displayClass: "resetButton", trigger: slippymap_resetPosition}); ';
+			$output .= '	var getWikiCodeButton = new OpenLayers.Control.Button({title: "' . wfMessage( 'slippymap_button_code' )->escaped() . '", displayClass: "getWikiCodeButton", trigger: slippymap_getWikicode}); ';
+			$output .= '	var resetButton = new OpenLayers.Control.Button({title: "' . wfMessage( 'slippymap_resetview' )->escaped() . '", displayClass: "resetButton", trigger: slippymap_resetPosition}); ';
 			$output .= '	var panel = new OpenLayers.Control.Panel( { displayClass: "buttonsPanel"}); ';
 			$output .= '	panel.addControls([getWikiCodeButton, resetButton]); ';
 			$output .= '	map.addControl(panel); ';
